@@ -41,6 +41,9 @@ netlify.site_name = core.getInput("site_name");
       "Deploying to site " + netlify.site_name + " with site_id " + site_id
     );
 
+    await exec(`npm init`);
+    await exec(`npm i netlify-cli`);
+
     await exec(
       `./node_modules/netlify-cli/bin/run deploy --prod --auth ${netlify.access_token} --site ${site_id}`,
       {
