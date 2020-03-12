@@ -42,8 +42,6 @@ netlify.toml_path = path.join(
       configPath: netlify.toml_path
     });
 
-    console.log(process.env.GITHUB_WORKSPACE);
-
     core.setOutput(
       "Successfully deployed site to " + netlify.site_name + ".netlify.com"
     );
