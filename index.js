@@ -1,6 +1,6 @@
-const { execSync } = require("child_process");
 const core = require("@actions/core");
 const NetlifyAPI = require("netlify");
+const path = require("path");
 
 // Input Variables
 let netlify = {};
@@ -39,8 +39,7 @@ netlify.toml_path =
       configPath: netlify.toml_path
     });
 
-    console.log(__dirname);
-    console.log(execSync("ls -la"));
+    console.log(process.env.GITHUB_WORKSPACE);
 
     core.setOutput(
       "Successfully deployed site to " + netlify.site_name + ".netlify.com"
