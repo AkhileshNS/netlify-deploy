@@ -29,6 +29,12 @@ netlify.toml_path = path.join(
     });
 
     if (site_id === "") {
+      console.log(
+        "Site with name " +
+          netlify.site_name +
+          " doesn't exist. Creating one now"
+      );
+
       const site = await client.createSite({
         body: {
           name: netlify.site_name
@@ -36,11 +42,20 @@ netlify.toml_path = path.join(
       });
 
       site_id = site.site_id;
+      console.log("Successfully created site with name " + netlify.site_name);
     }
+
+    console.log(
+      "Deploying to site " + netlify.site_name + " with site_id " + site_id
+    );
 
     await client.deploy(site_id, netlify.folder_path, {
       configPath: netlify.toml_path
     });
+
+    console.log(
+      "Successfully deployed site to " + netlify.site_name + ".netlify.com"
+    );
 
     core.setOutput(
       "Successfully deployed site to " + netlify.site_name + ".netlify.com"
