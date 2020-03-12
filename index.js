@@ -9,8 +9,6 @@ netlify.site_name = core.getInput("site_name");
 
 (async function() {
   try {
-    await exec(`npm i -g netlify-cli`);
-
     const client = new NetlifyAPI(netlify.access_token);
 
     const sites = await client.listSites();
@@ -44,7 +42,7 @@ netlify.site_name = core.getInput("site_name");
     );
 
     await exec(
-      `netlify deploy --prod --auth ${netlify.access_token} --site ${site_id}`,
+      `./node_modules/netlify-cli/bin/run deploy --prod --auth ${netlify.access_token} --site ${site_id}`,
       {
         listeners: {
           stdout: data => console.log(data.toString()),
