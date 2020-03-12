@@ -1,0 +1,26 @@
+name: "Deploy to Netlify"
+description: "Deploy an app to Netlify"
+branding:
+  icon: "upload-cloud"
+  color: "blue"
+inputs:
+  netlify_access_token:
+    description: "This will be used for authentication. You can find it in your heroku homepage account settings"
+    required: true
+  site_name:
+    description: "Name of your site. Make sure this is unique to .netlify.com (Assigned randomly if unset)"
+    required: true
+  folder_path:
+    description: 'Path to the folder that needs to be deployed (Default: ".")'
+    required: false
+    default: "."
+  toml_path:
+    description: 'Path to the netlify.toml file (Default: folder_path + "/netlify.toml")'
+    required: false
+    default: ""
+outputs:
+  status:
+    description: "The Success/Failure of the action"
+runs:
+  using: "node12"
+  main: "index.js"
