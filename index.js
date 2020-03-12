@@ -1,22 +1,16 @@
 const core = require("@actions/core");
 const NetlifyAPI = require("netlify");
-const path = require("path");
+const { exec } = require("@actions/exec");
 
 // Input Variables
 let netlify = {};
 netlify.access_token = core.getInput("netlify_access_token");
 netlify.site_name = core.getInput("site_name");
-netlify.folder_path = path.join(
-  process.env.GITHUB_WORKSPACE,
-  core.getInput("folder_path")
-);
-netlify.toml_path = path.join(
-  process.env.GITHUB_WORKSPACE,
-  core.getInput("toml_path")
-);
 
 (async function() {
   try {
+    await exec(`npm i -g netlify-cli`);
+
     const client = new NetlifyAPI(netlify.access_token);
 
     const sites = await client.listSites();
@@ -49,9 +43,15 @@ netlify.toml_path = path.join(
       "Deploying to site " + netlify.site_name + " with site_id " + site_id
     );
 
-    await client.deploy(site_id, netlify.folder_path, {
-      configPath: netlify.toml_path
-    });
+    await exec(
+      `netlify deploy --prod --auth ${netlify.access_token} --site ${site_id}`,
+      {
+        listeners: {
+          stdout: data => console.log(data.toString()),
+          stderr: data => console.log(data.toString())
+        }
+      }
+    );
 
     console.log(
       "Successfully deployed site to " + netlify.site_name + ".netlify.com"
