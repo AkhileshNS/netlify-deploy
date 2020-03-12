@@ -38,13 +38,9 @@ netlify.toml_path = path.join(
       site_id = site.site_id;
     }
 
-    await client.deploy(
-      site_id,
-      path.join(process.env.GITHUB_WORKSPACE, netlify.folder_path),
-      {
-        configPath: netlify.toml_path
-      }
-    );
+    await client.deploy(site_id, netlify.folder_path, {
+      configPath: netlify.toml_path
+    });
 
     console.log(process.env.GITHUB_WORKSPACE);
 
