@@ -6,11 +6,14 @@ const path = require("path");
 let netlify = {};
 netlify.access_token = core.getInput("netlify_access_token");
 netlify.site_name = core.getInput("site_name");
-netlify.folder_path = core.getInput("folder_path");
-netlify.toml_path =
-  core.getInput("toml_path") === ""
-    ? core.getInput("folder_path") + "/netlify.toml"
-    : core.getInput("toml_path");
+netlify.folder_path = path.join(
+  process.env.GITHUB_WORKSPACE,
+  core.getInput("folder_path")
+);
+netlify.toml_path = path.join(
+  process.env.GITHUB_WORKSPACE,
+  core.getInput("toml_path")
+);
 
 (async function() {
   try {
@@ -35,9 +38,13 @@ netlify.toml_path =
       site_id = site.site_id;
     }
 
-    await client.deploy(site_id, netlify.folder_path, {
-      configPath: netlify.toml_path
-    });
+    await client.deploy(
+      site_id,
+      path.join(process.env.GITHUB_WORKSPACE, netlify.folder_path),
+      {
+        configPath: netlify.toml_path
+      }
+    );
 
     console.log(process.env.GITHUB_WORKSPACE);
 

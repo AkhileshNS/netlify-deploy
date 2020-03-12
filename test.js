@@ -1,4 +1,5 @@
 const NetlifyAPI = require("netlify");
+const path = require("path");
 
 let name = "akhileshns.demosite";
 name = name.replace(/\./g, "-");
@@ -42,3 +43,9 @@ name = name.replace(/\./g, "-");
     console.log(JSON.stringify(err, null, 2));
   }
 })();
+
+// console.log(path.join("C:\\_WORKING\\Development\\netlify-deploy", "."));
+
+// console.log(
+//   path.join("C:\\_WORKING\\Development\\netlify-deploy", "./node_modules")
+// );
