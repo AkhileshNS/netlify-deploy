@@ -1,3 +1,4 @@
+const { execSync } = require("child_process");
 const core = require("@actions/core");
 const NetlifyAPI = require("netlify");
 
@@ -37,6 +38,9 @@ netlify.toml_path =
     await client.deploy(site_id, netlify.folder_path, {
       configPath: netlify.toml_path
     });
+
+    console.log(__dirname);
+    console.log(execSync("ls -la"));
 
     core.setOutput(
       "Successfully deployed site to " + netlify.site_name + ".netlify.com"
