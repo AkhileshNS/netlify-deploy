@@ -41,7 +41,7 @@ netlify.site_name = core.getInput("site_name");
       "Deploying to site " + netlify.site_name + " with site_id " + site_id
     );
 
-    await exec(`npm init`);
+    await exec(`npm init -y`);
     await exec(`npm i netlify-cli`);
 
     await exec(
